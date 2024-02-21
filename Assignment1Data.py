@@ -7,7 +7,7 @@ Data = {
 'EmissionConstants': 
 {
 'NOxEmissionOcean': 0.0,        # kgN/day
-'NOxEmissionLand': 0.12,        # kgN/day
+'NOxEmissionLand': 0.12,        # kg/day
 'COEmissionOcean': 0.0,         # kg/day
 'COEmissionLand': 14.0,         # kg/day
 'CH4EmissionOcean': 0.0,        # kg/day
@@ -46,7 +46,7 @@ Data = {
 'EnvironmentalConstants' : 
 {
 'AirDensity' : 1.0,             # kg/m3
-'Temperature' : 298             # K
+'Temperature' : 298,            # K
 },
 
 
