@@ -9,6 +9,11 @@ DeltaT = 3600   # s
 
 # 1) Formulate a differential equation for NOx that includes the emissions and the NOx lifetime.
 
+# X(t+1) = X(t) * EXP(-DeltaT/Te) + P*DeltaT
+
+def NOxEvolution(NOx,Te,P,DeltaT=DeltaT):
+    return float(NOx * np.exp(-DeltaT/Te) + P*DeltaT)
+
 # 2) Give the formulas for converting
 # a. volume mixing ratios into kg in the box.
 # b. Air density in molec/cm3
@@ -21,13 +26,17 @@ DeltaT = 3600   # s
 # TODO Change units to molec/cm3
 # 
 
-NOx = Data['InitialValues']['NOxInitialValue']
+molec_air_1cm3 = 0.01**3 * Data['EnvironmentalConstants']['AirDensity'] * Data['PhysicalConstants']['AvogadoConstant']
+NOx = molec_air_1cm3 * Data['InitialValues']['NOxInitialValue'] * 10**-12
 NOxLog = [NOx]
 
 # Run the simulation of the first period over the ocean
 TimeOcean1 = 5*24*3600
 for t in range(0,TimeOcean1,DeltaT):
-    NOx = float(NOx * np.exp(-DeltaT/(Data['LifeTimeConstants']['NOxLifeTime']*24*3600)))
+    # NOx = float(NOx * np.exp(-DeltaT/(Data['LifeTimeConstants']['NOxLifeTime']*24*3600)))
+    NOx = NOxEvolution(NOx,
+                       Data['LifeTimeConstants']['NOxLifeTime']*24*3600,
+                       0)
     NOxLog.append(NOx)
 
 # Run the simulation of the period over land
@@ -39,6 +48,11 @@ MolsNOxPerDay = Data['EmissionConstants']['NOxEmissionLand'] / MolecularMassNOx
 for t in range(0,TimeLand,DeltaT):
     NOx = float(NOx * (1 * np.exp(-DeltaT/(Data['LifeTimeConstants']['NOxLifeTime']*24*3600))) + ((MolsNOxPerDay/(24*3600)) * 10**12 / MolsInBox)*DeltaT)
     NOxLog.append(NOx)
+
+# Run the simulation of the period over land
+TimeLand = 15*24*3600
+
+
 
 # Run the simulation of the second period over the ocean
 TimeOcean2 = 10*24*3600

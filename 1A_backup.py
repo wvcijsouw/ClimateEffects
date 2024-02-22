@@ -12,10 +12,6 @@ DeltaT = 3600   # s
 # X(t+1) = X(t) * EXP(-DeltaT/Te) + P*DeltaT
 
 def NOxEvolution(NOx,Te,P,DeltaT=DeltaT):
-    # P = Molec_NOx_1cm3_per_s*DeltaT
-    # L = NOx * np.exp(-DeltaT/(Data['LifeTimeConstants']['NOxLifeTime']*24*3600))
-    # NOx = float(L + P)
-    # NOxLog.append(NOx)
     return float(NOx * np.exp(-DeltaT/Te) + P*DeltaT)
 
 
