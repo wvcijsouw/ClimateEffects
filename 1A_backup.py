@@ -12,7 +12,7 @@ DeltaT = 3600   # s
 # X(t+1) = X(t) * EXP(-DeltaT/Te) + P*DeltaT
 
 def NOxEvolution(NOx,Te,P,DeltaT=DeltaT):
-    return float(NOx * np.exp(-DeltaT/Te) + P*DeltaT)
+    return NOx + (P - NOx/Te)*DeltaT
 
 
 # 2) Give the formulas for converting
